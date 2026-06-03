@@ -8,8 +8,11 @@ describe('App', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'One dev command, two federation runtimes.',
+        name: 'One host view, two remote render paths.',
       }),
+    ).toBeDefined()
+    expect(
+      screen.getByTitle('SSR remote rendered by TanStack Start'),
     ).toBeDefined()
     expect(await screen.findByText('CSR host mounted remote')).toBeDefined()
   })

@@ -28,8 +28,8 @@ export default defineConfig({
           './FederatedBadge': './src/components/FederatedBadge.tsx',
         },
         shared: {
-          react: { singleton: true },
-          'react-dom': { singleton: true },
+          react: { eager: true, singleton: true },
+          'react-dom': { eager: true, singleton: true },
         },
       },
       server: {

@@ -68,7 +68,7 @@ export function pluginTanStackStartModuleFederation({
   }
 
   const {
-    chunkFilename = `[name]${federation.name}.cjs`,
+    chunkFilename = `[id]${federation.name}.cjs`,
     entryFilename = '[name].cjs',
     environment: serverEnvironment = 'ssr',
     forceCommonJsOutput = true,
@@ -168,8 +168,12 @@ function pluginTanStackStartFederationSsrCompat({
           config.output.chunkFilename = chunkFilename
 
           if (forceCommonJsOutput) {
+            config.target = 'async-node'
             config.output.module = false
+            config.output.chunkFormat = 'commonjs'
+            config.output.chunkLoading = 'async-node'
             config.output.library = { type: 'commonjs2' }
+            delete config.output.chunkLoadingGlobal
           }
         }
       })

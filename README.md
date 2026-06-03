@@ -34,6 +34,11 @@ and imports:
 import('tanstack_federation/FederatedBadge')
 ```
 
+The host view intentionally shows both remote render paths:
+
+- SSR: `http://localhost:3001/ssr-remote` displayed inside the host.
+- CSR: `tanstack_federation/FederatedBadge` loaded through Module Federation.
+
 ## Commands
 
 ```bash
