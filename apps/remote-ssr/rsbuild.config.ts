@@ -23,9 +23,9 @@ export default defineConfig({
     tanstackStart(),
     ...pluginTanStackStartModuleFederation({
       federation: {
-        name: 'tanstack_federation',
+        name: 'ssr_remote',
         exposes: {
-          './FederatedBadge': './src/components/FederatedBadge.tsx',
+          './SsrRemotePanel': './src/components/SsrRemotePanel.tsx',
         },
         shared: {
           react: { eager: true, singleton: true },

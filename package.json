@@ -5,8 +5,8 @@
   "packageManager": "pnpm@10.33.1",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev --filter=@repo/host --filter=@repo/remote",
-    "preview": "turbo preview --filter=@repo/host --filter=@repo/remote",
+    "dev": "turbo dev --filter=@repo/host --filter=@repo/remote-csr --filter=@repo/remote-ssr",
+    "preview": "turbo preview --filter=@repo/host --filter=@repo/remote-csr --filter=@repo/remote-ssr",
     "test": "turbo test",
     "typecheck": "turbo typecheck"
   },

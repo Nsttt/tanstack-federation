@@ -1,4 +1,4 @@
-declare module 'tanstack_federation/FederatedBadge' {
+declare module 'csr_remote/FederatedBadge' {
   import type { ComponentType } from 'react'
 
   export type FederatedBadgeProps = {

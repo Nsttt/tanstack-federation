@@ -100,6 +100,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body.embed-body {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(80, 187, 177, 0.16), transparent 45%),
+    #edf7f1;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -202,6 +209,45 @@ a {
   color: var(--kicker);
 }
 
+.ssr-component-route {
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.ssr-remote-card {
+  display: grid;
+  min-height: calc(100vh - 32px);
+  align-content: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(165deg, var(--surface-strong), var(--surface));
+  padding: clamp(22px, 7vw, 40px);
+  box-shadow:
+    0 1px 0 var(--inset-glint) inset,
+    0 18px 34px rgba(30, 90, 72, 0.1),
+    0 4px 14px rgba(23, 58, 64, 0.08);
+}
+
+.ssr-remote-card h1,
+.ssr-remote-card p {
+  margin: 0;
+}
+
+.ssr-remote-card h1 {
+  max-width: 18ch;
+  font-size: clamp(30px, 8vw, 48px);
+  line-height: 1;
+  color: var(--sea-ink);
+}
+
+.ssr-remote-card p:last-child {
+  max-width: 46ch;
+  color: var(--sea-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .nav-link {
   position: relative;
   display: inline-flex;
@@ -258,4 +304,3 @@ a {
     transform: translateY(0);
   }
 }
-

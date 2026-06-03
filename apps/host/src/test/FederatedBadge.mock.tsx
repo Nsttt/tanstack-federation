@@ -1,4 +1,4 @@
-import type { FederatedBadgeProps } from 'tanstack_federation/FederatedBadge'
+import type { FederatedBadgeProps } from 'csr_remote/FederatedBadge'
 
 export default function FederatedBadge({ label, detail }: FederatedBadgeProps) {
   return (

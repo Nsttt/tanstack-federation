@@ -11,7 +11,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'tanstack_federation/FederatedBadge': federatedBadgeMock,
+      'csr_remote/FederatedBadge': federatedBadgeMock,
     },
   },
 })

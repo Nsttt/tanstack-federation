@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 
 const FederatedBadge = lazy(
-  () => import('tanstack_federation/FederatedBadge'),
+  () => import('csr_remote/FederatedBadge'),
 )
 
 export function App() {
@@ -11,9 +11,9 @@ export function App() {
         <p className="kicker">CSR host / SSR remote</p>
         <h1>One host view, two remote render paths.</h1>
         <p className="copy">
-          The host is a client-rendered Rsbuild app. It displays an SSR route
-          from the TanStack Start remote and a CSR federated module from the
-          same remote server.
+          The host is a client-rendered Rsbuild app. It displays a component-only
+          SSR route from the TanStack Start remote and a CSR federated module
+          from a separate remote.
         </p>
 
         <div className="remote-grid">
@@ -34,7 +34,7 @@ export function App() {
               >
                 <FederatedBadge
                   label="CSR host mounted remote"
-                  detail="Remote module loaded in the browser"
+                  detail="Remote CSR app loaded in the browser"
                 />
               </Suspense>
             </div>

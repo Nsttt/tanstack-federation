@@ -7,5 +7,6 @@ describe('router', () => {
 
     expect(router.routesByPath['/']).toBeDefined()
     expect(router.routesByPath['/about']).toBeDefined()
+    expect(router.routesByPath['/ssr-remote']).toBeDefined()
   })
 })

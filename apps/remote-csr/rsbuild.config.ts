@@ -8,10 +8,10 @@ export default defineConfig({
   },
   html: {
     template: './index.html',
-    title: 'Module Federation Host',
+    title: 'CSR Remote',
   },
   server: {
-    port: 3000,
+    port: 3002,
   },
   source: {
     entry: {
@@ -21,9 +21,9 @@ export default defineConfig({
   plugins: [
     pluginReact(),
     pluginModuleFederation({
-      name: 'tanstack_host',
-      remotes: {
-        csr_remote: 'csr_remote@http://localhost:3002/mf-manifest.json',
+      name: 'csr_remote',
+      exposes: {
+        './FederatedBadge': './src/FederatedBadge.tsx',
       },
       shared: {
         react: { singleton: true },
