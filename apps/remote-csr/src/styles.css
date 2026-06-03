@@ -42,35 +42,3 @@ h1 {
   font-size: clamp(40px, 8vw, 72px);
   line-height: 0.96;
 }
-
-.federated-badge {
-  display: inline-flex;
-  max-width: 100%;
-  width: fit-content;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid rgba(23, 58, 64, 0.18);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.68);
-  padding: 10px 16px;
-  color: #173a40;
-  box-shadow: 0 12px 30px rgba(30, 90, 72, 0.1);
-  backdrop-filter: blur(4px);
-}
-
-.badge-dot {
-  width: 10px;
-  height: 10px;
-  flex: 0 0 auto;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #56c6be, #f2b84b);
-}
-
-.badge-copy {
-  min-width: 0;
-}
-
-.badge-separator {
-  margin-inline: 8px;
-  color: #416166;
-}

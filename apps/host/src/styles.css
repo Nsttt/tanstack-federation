@@ -106,6 +106,7 @@ h1 {
   display: flex;
   min-height: 360px;
   align-items: center;
+  justify-content: center;
 }
 
 .loading {
@@ -117,7 +118,20 @@ h1 {
 }
 
 @media (max-width: 760px) {
+  .shell {
+    padding: 16px;
+  }
+
+  .hero {
+    border-radius: 18px;
+    padding: 24px 16px;
+  }
+
   .remote-grid {
     grid-template-columns: 1fr;
+  }
+
+  .remote-panel {
+    padding: 10px;
   }
 }
