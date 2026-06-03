@@ -1,34 +1,30 @@
-import { pluginModuleFederation } from '@module-federation/rsbuild-plugin'
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
+import { tanstackStart } from '@tanstack/react-start/plugin/rsbuild'
+import { pluginTanStackStartModuleFederation } from '@module-federation/tanstack-start'
 
 export default defineConfig({
   dev: {
     lazyCompilation: false,
   },
-  html: {
-    template: './index.html',
-    title: 'CSR Remote',
-  },
   server: {
     port: 3002,
   },
-  source: {
-    entry: {
-      index: './src/main.tsx',
-    },
-  },
   plugins: [
     pluginReact(),
-    pluginModuleFederation({
-      name: 'csr_remote',
-      exposes: {
-        './FederatedBadge': './src/FederatedBadge.tsx',
+    tanstackStart(),
+    ...pluginTanStackStartModuleFederation({
+      federation: {
+        name: 'csr_remote',
+        exposes: {
+          './FederatedBadge': './src/FederatedBadge.tsx',
+        },
+        shared: {
+          react: { eager: true, singleton: true },
+          'react-dom': { eager: true, singleton: true },
+        },
       },
-      shared: {
-        react: { singleton: true },
-        'react-dom': { singleton: true },
-      },
+      server: false,
     }),
   ],
 })

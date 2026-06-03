@@ -1,8 +1,5 @@
-import { lazy, Suspense } from 'react'
-
-const FederatedBadge = lazy(
-  () => import('csr_remote/FederatedBadge'),
-)
+import { Suspense } from 'react'
+import { FederatedBadgeSlot } from './FederatedBadgeSlot'
 
 export function App() {
   return (
@@ -32,7 +29,7 @@ export function App() {
               <Suspense
                 fallback={<span className="loading">Loading remote...</span>}
               >
-                <FederatedBadge
+                <FederatedBadgeSlot
                   label="CSR host mounted remote"
                   detail="Remote CSR app loaded in the browser"
                 />

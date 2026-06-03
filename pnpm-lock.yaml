@@ -14,6 +14,18 @@ importers:
 
   apps/host:
     dependencies:
+      '@module-federation/runtime':
+        specifier: ^2.5.0
+        version: 2.5.0(node-fetch@2.7.0(encoding@0.1.13))
+      '@tanstack/react-router':
+        specifier: latest
+        version: 1.170.11(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@tanstack/react-start':
+        specifier: latest
+        version: 1.168.19(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@rspack/core@2.0.6(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))(@swc/helpers@0.5.23))(crossws@0.4.5(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@22.19.19)(jiti@2.7.0))
+      '@tanstack/router-plugin':
+        specifier: ^1.132.0
+        version: 1.168.14(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@tanstack/react-router@1.170.11(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.0.16(@types/node@22.19.19)(jiti@2.7.0))
       react:
         specifier: ^19.2.0
         version: 19.2.7
@@ -24,6 +36,9 @@ importers:
       '@module-federation/rsbuild-plugin':
         specifier: ^2.5.0
         version: 2.5.0(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@rspack/core@2.0.6(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))(@swc/helpers@0.5.23))(node-fetch@2.7.0(encoding@0.1.13))(typescript@6.0.3)
+      '@module-federation/tanstack-start':
+        specifier: workspace:*
+        version: link:../../packages/tanstack-start
       '@rsbuild/core':
         specifier: ^2.0.10
         version: 2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))
@@ -57,6 +72,15 @@ importers:
 
   apps/remote-csr:
     dependencies:
+      '@tanstack/react-router':
+        specifier: latest
+        version: 1.170.11(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@tanstack/react-start':
+        specifier: latest
+        version: 1.168.19(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@rspack/core@2.0.6(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))(@swc/helpers@0.5.23))(crossws@0.4.5(srvx@0.11.16))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@22.19.19)(jiti@2.7.0))
+      '@tanstack/router-plugin':
+        specifier: ^1.132.0
+        version: 1.168.14(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@tanstack/react-router@1.170.11(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.0.16(@types/node@22.19.19)(jiti@2.7.0))
       react:
         specifier: ^19.2.0
         version: 19.2.7
@@ -67,6 +91,9 @@ importers:
       '@module-federation/rsbuild-plugin':
         specifier: ^2.5.0
         version: 2.5.0(@rsbuild/core@2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13))))(@rspack/core@2.0.6(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))(@swc/helpers@0.5.23))(node-fetch@2.7.0(encoding@0.1.13))(typescript@6.0.3)
+      '@module-federation/tanstack-start':
+        specifier: workspace:*
+        version: link:../../packages/tanstack-start
       '@rsbuild/core':
         specifier: ^2.0.10
         version: 2.0.10(@module-federation/runtime-tools@2.5.0(node-fetch@2.7.0(encoding@0.1.13)))
