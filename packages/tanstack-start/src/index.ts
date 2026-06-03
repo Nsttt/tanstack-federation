@@ -7,7 +7,9 @@ import type { RsbuildPlugin } from '@rsbuild/core'
 type ModuleFederationOverride = Partial<ModuleFederationOptions>
 
 type ClientFederationOptions = ModuleFederationOverride & {
+  chunkLoadingGlobal?: string
   environment?: string
+  forceScriptOutput?: boolean
 }
 
 type ServerFederationOptions =
@@ -30,18 +32,34 @@ export function pluginTanStackStartModuleFederation({
   federation,
   server = {},
 }: TanStackStartModuleFederationOptions): Array<RsbuildPlugin> {
-  const { environment: clientEnvironment = 'client', ...clientOverrides } =
-    client
+  const {
+    chunkLoadingGlobal,
+    environment: clientEnvironment = 'client',
+    forceScriptOutput = true,
+    ...clientOverrides
+  } = client
   const clientFederationOptions = {
     filename: 'remoteEntry.js',
     ...federation,
     ...clientOverrides,
   } as ModuleFederationOptions
+  const federationName = clientFederationOptions.name
+
+  if (!federationName) {
+    throw new Error('federation.name is required')
+  }
 
   const plugins = [
     pluginModuleFederation(clientFederationOptions, {
       target: 'web',
       environment: clientEnvironment,
+    }),
+    pluginTanStackStartFederationClientCompat({
+      chunkLoadingGlobal:
+        chunkLoadingGlobal ?? `chunk_${federationName} `,
+      environment: clientEnvironment,
+      forceScriptOutput,
+      name: federationName,
     }),
   ]
 
@@ -79,6 +97,49 @@ export function pluginTanStackStartModuleFederation({
 
 export const tanstackStartModuleFederation =
   pluginTanStackStartModuleFederation
+
+type ClientCompatOptions = {
+  chunkLoadingGlobal: string
+  environment: string
+  forceScriptOutput: boolean
+  name: string
+}
+
+type RspackExperiments = {
+  outputModule?: boolean
+}
+
+function pluginTanStackStartFederationClientCompat({
+  chunkLoadingGlobal,
+  environment,
+  forceScriptOutput,
+  name,
+}: ClientCompatOptions): RsbuildPlugin {
+  return {
+    name: 'tanstack-start-federation-client-compat',
+    setup(api) {
+      api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
+        for (const config of bundlerConfigs ?? []) {
+          if (config.name !== environment) {
+            continue
+          }
+
+          config.output ||= {}
+          config.output.chunkFormat = 'array-push'
+          config.output.chunkLoading = 'jsonp'
+          config.output.chunkLoadingGlobal = chunkLoadingGlobal
+          config.output.uniqueName ??= name
+
+          if (forceScriptOutput) {
+            config.output.module = false
+            const experiments = (config.experiments ??= {}) as RspackExperiments
+            experiments.outputModule = false
+          }
+        }
+      })
+    },
+  }
+}
 
 type SsrCompatOptions = {
   chunkFilename: string

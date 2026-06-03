@@ -1,235 +1,99 @@
-Welcome to your new TanStack Start app! 
+# TanStack Start + Module Federation
 
-# Getting Started
+pnpm workspace for testing Rsbuild Module Federation with TanStack Start SSR.
 
-To run this application:
+## Workspace
+
+- `apps/host`: CSR Rsbuild React host on port `3000`
+- `apps/remote`: SSR TanStack Start remote on port `3001`
+- `packages/tanstack-start`: local `@module-federation/tanstack-start` Rsbuild helper package
+
+## Dev
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-# Building For Production
+`pnpm dev` runs both app servers through Turbo:
 
-To build this application for production:
+- host: `http://localhost:3000`
+- remote: `http://localhost:3001`
+- remote client manifest: `http://localhost:3001/mf-manifest.json`
+- remote SSR container: `http://localhost:3001/serverRemoteEntry.cjs`
 
-```bash
-pnpm build
+The host consumes:
+
+```ts
+tanstack_federation@http://localhost:3001/mf-manifest.json
 ```
 
-## Testing
+and imports:
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+```ts
+import('tanstack_federation/FederatedBadge')
+```
+
+## Commands
 
 ```bash
+pnpm typecheck
 pnpm test
+pnpm build
+pnpm preview
 ```
 
 ## Module Federation
 
-This app is also an Rsbuild Module Federation remote.
+The remote uses `@module-federation/tanstack-start` to install both Module
+Federation compilers:
 
-- Remote name: `tanstack_federation`
-- Manifest: `/mf-manifest.json`
-- Remote entry: `/remoteEntry.js`
-- Server manifest: `/server-mf-manifest.json`
-- Server remote entry: `/serverRemoteEntry.cjs`
-- Exposed module: `tanstack_federation/FederatedBadge`
-- Source: `src/components/FederatedBadge.tsx`
+- web target for the browser manifest and `remoteEntry.js`
+- node target for the SSR container and `serverRemoteEntry.cjs`
 
-Example host config:
+The helper also patches the TanStack Start SSR compiler output to CommonJS
+chunk names so the node federation runtime can load exposed modules during SSR.
+
+Remote exposure:
 
 ```ts
-import { pluginModuleFederation } from '@module-federation/rsbuild-plugin'
-
-pluginModuleFederation({
-  name: 'host',
-  remotes: {
-    tanstack_federation:
-      'tanstack_federation@http://localhost:3000/mf-manifest.json',
-  },
-  shared: ['react', 'react-dom'],
-})
-```
-
-The server remote is emitted as CommonJS because the Module Federation node
-runtime patches the SSR compiler for CommonJS chunk loading. The local
-`@module-federation/tanstack-start` workspace package keeps the TanStack Start
-server bundle and server federation chunks consistently named as `.cjs`.
-
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `@tailwindcss/postcss` from `rsbuild.config.ts`
-4. Uninstall the packages: `pnpm remove @tailwindcss/postcss tailwindcss`
-
-
-## Deploy
-
-This project uses TanStack Start with Rsbuild, so the production build emits a server bundle and client assets.
-
-```bash
-pnpm build
-PORT=3000 node scripts/preview.mjs
-```
-
-Deploy the `dist/` directory with `scripts/preview.mjs` to a Node-compatible host and run the server command above.
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
+pluginTanStackStartModuleFederation({
+  federation: {
+    name: 'tanstack_federation',
+    exposes: {
+      './FederatedBadge': './src/components/FederatedBadge.tsx',
+    },
+    shared: {
+      react: { singleton: true },
+      'react-dom': { singleton: true },
     },
   },
 })
 ```
 
-## Data Fetching
+Host remote:
 
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
+```ts
+pluginModuleFederation({
+  name: 'tanstack_host',
+  remotes: {
+    tanstack_federation:
+      'tanstack_federation@http://localhost:3001/mf-manifest.json',
   },
-  component: PeopleComponent,
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
 })
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
 ```
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+## Production Preview
 
-# Demo files
+```bash
+pnpm build
+pnpm preview
+```
 
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+The remote preview server serves the TanStack Start SSR app from
+`apps/remote/dist/server/index.cjs` and static client/federation assets from
+`apps/remote/dist/client`.

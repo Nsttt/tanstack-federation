@@ -12,9 +12,10 @@ describe('pluginTanStackStartModuleFederation', () => {
   it('creates client and server plugins by default', () => {
     const plugins = pluginTanStackStartModuleFederation({ federation })
 
-    expect(plugins).toHaveLength(3)
+    expect(plugins).toHaveLength(4)
     expect(plugins.map((plugin) => plugin.name)).toEqual([
       'rsbuild:module-federation-enhanced',
+      'tanstack-start-federation-client-compat',
       'rsbuild:module-federation-enhanced',
       'tanstack-start-federation-ssr-compat',
     ])
@@ -26,7 +27,8 @@ describe('pluginTanStackStartModuleFederation', () => {
       server: false,
     })
 
-    expect(plugins).toHaveLength(1)
+    expect(plugins).toHaveLength(2)
     expect(plugins[0]?.name).toBe('rsbuild:module-federation-enhanced')
+    expect(plugins[1]?.name).toBe('tanstack-start-federation-client-compat')
   })
 })

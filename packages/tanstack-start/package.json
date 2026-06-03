@@ -14,6 +14,11 @@
     }
   },
   "sideEffects": false,
+  "scripts": {
+    "build": "pnpm typecheck",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
   "keywords": [
     "module-federation",
     "tanstack-start",
@@ -23,5 +28,12 @@
   "peerDependencies": {
     "@module-federation/rsbuild-plugin": "^2.5.0",
     "@rsbuild/core": "^2.0.0"
+  },
+  "devDependencies": {
+    "@module-federation/rsbuild-plugin": "^2.5.0",
+    "@rsbuild/core": "^2.0.10",
+    "@types/node": "^22.10.2",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.5"
   }
 }

@@ -5,8 +5,11 @@ import { tanstackStart } from '@tanstack/react-start/plugin/rsbuild'
 import { pluginTanStackStartModuleFederation } from '@module-federation/tanstack-start'
 
 export default defineConfig({
+  dev: {
+    lazyCompilation: false,
+  },
   server: {
-    port: 3000,
+    port: 3001,
   },
   tools: {
     postcss: {
