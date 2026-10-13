@@ -30,10 +30,10 @@
     "@rsbuild/core": "^2.0.0"
   },
   "devDependencies": {
-    "@module-federation/rsbuild-plugin": "^2.5.0",
-    "@rsbuild/core": "^2.0.10",
-    "@types/node": "^22.10.2",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.5"
+    "@module-federation/rsbuild-plugin": "^2.9.2",
+    "@rsbuild/core": "2.2.2",
+    "@types/node": "^22.20.5",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11"
   }
 }
